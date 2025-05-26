@@ -4,37 +4,16 @@ import os # Import os for saving the file
 
 # Provided loss data
 loss_data = """
-Epoch 1/30, Average Loss: 0.912165
-Epoch 2/30, Average Loss: 0.839281
-Epoch 3/30, Average Loss: 0.824167
-Epoch 4/30, Average Loss: 0.818249
-Epoch 5/30, Average Loss: 0.812868
-Epoch 6/30, Average Loss: 0.807449
-Epoch 7/30, Average Loss: 0.806767
-Epoch 8/30, Average Loss: 0.799156
-Epoch 9/30, Average Loss: 0.794464
-Epoch 10/30, Average Loss: 0.790098
-Epoch 11/30, Average Loss: 0.786555
-Epoch 12/30, Average Loss: 0.784584
-Epoch 13/30, Average Loss: 0.779341
-Epoch 14/30, Average Loss: 0.777672
-Epoch 15/30, Average Loss: 0.775432
-Epoch 16/30, Average Loss: 0.773390
-Epoch 17/30, Average Loss: 0.772983
-Epoch 18/30, Average Loss: 0.768346
-Epoch 19/30, Average Loss: 0.766195
-Epoch 20/30, Average Loss: 0.765035
-Epoch 21/30, Average Loss: 0.766923
-Epoch 22/30, Average Loss: 0.761370
-Epoch 23/30, Average Loss: 0.760490
-Epoch 24/30, Average Loss: 0.767114
-Epoch 25/30, Average Loss: 0.766243
-Epoch 26/30, Average Loss: 0.773546
-Epoch 27/30, Average Loss: 0.763726
-Epoch 28/30, Average Loss: 0.758100
-Epoch 29/30, Average Loss: 0.756026
-Epoch 30/30, Average Loss: 0.754393
+Epoch 1/5, Average Loss: 0.729995
+Epoch 2/5, Average Loss: 0.647050
+Epoch 3/5, Average Loss: 0.588682
+Epoch 4/5, Average Loss: 0.546123
+Epoch 5/5, Average Loss: 0.515123
 """
+
+git add -all
+git commit -m "adjusted model"
+gir push origin main
 
 # Parse the data
 epochs = []
@@ -46,7 +25,7 @@ for line in loss_data.strip().split('\n'):
     epoch_fraction_str = parts[0].split(' ')[1] 
     
     # Split "1/30" by '/' to get just the "1"
-    current_epoch = int(epoch_fraction_str.split('/')[0]) # Corrected line
+    current_epoch = int(epoch_fraction_str.split('/')[0]) 
     
     loss_str = parts[1].split(': ')[1] 
     

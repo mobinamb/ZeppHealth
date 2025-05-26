@@ -133,39 +133,19 @@ if __name__ == "__main__":
 
         # --- Plotting ---
         plt.figure(figsize=(12, 8))
-        # # Plot against the original RAW ground truth
+        # Plot against the original RAW ground truth
         plt.plot(gt_target_raw[:, 0], gt_target_raw[:, 1], label='Ground Truth', color='black', linestyle='--', linewidth=2)
-        plt.plot(fused_positions_np[:, 0], fused_positions_np[:, 1], label='Fused Position (Model Output)', color='red', linewidth=1.5)
-
-        # Re-extract and convert original GPS data for plotting
-        processor_for_inference.transformer = None
-
-        synced_gps_x_raw_plot, synced_gps_y_raw_plot = None, None
-        if processor_for_inference.gps_is_latlon:
-            f_lat_plot = interp1d(df_gps_inference['time_s'], df_gps_inference['x_m'], kind='linear', fill_value="extrapolate")
-            f_lon_plot = interp1d(df_gps_inference['time_s'], df_gps_inference['y_m'], kind='linear', fill_value="extrapolate")
-            synced_gps_lat_raw_plot = f_lat_plot(master_timestamps_inference)
-            synced_gps_lon_raw_plot = f_lon_plot(master_timestamps_inference)
-            synced_gps_x_raw_plot, synced_gps_y_raw_plot = processor_for_inference.convert_latlon_to_local_cartesian(
-                synced_gps_lat_raw_plot, synced_gps_lon_raw_plot)
-        else:
-            f_x_plot = interp1d(df_gps_inference['time_s'], df_gps_inference['x_m'], kind='linear', fill_value="extrapolate")
-            f_y_plot = interp1d(df_gps_inference['time_s'], df_gps_inference['y_m'], kind='linear', fill_value="extrapolate")
-            synced_gps_x_raw_plot = f_x_plot(master_timestamps_inference)
-            synced_gps_y_raw_plot = f_y_plot(master_timestamps_inference)
-
-        if synced_gps_x_raw_plot is not None and synced_gps_y_raw_plot is not None:
-            plt.plot(synced_gps_x_raw_plot, synced_gps_y_raw_plot, label='Raw Synchronized GPS', color='blue', alpha=0.6, linestyle=':')
+        plt.plot(fused_positions_np[:, 0], fused_positions_np[:, 1], label='Fused Position (Model Output)', color='red', linestyle='dotted', linewidth=1.5)
+        plt.plot(model_input_raw[:, 0], model_input_raw[:, 1], label='Raw Synchronized GPS', color='blue', alpha=0.6, linestyle=':')
 
         # Plot RoNIN-integrated path
         ronin_path_integrated = np.zeros_like(gt_target_raw)
-        ronin_path_integrated[0] = gt_target_raw[0] # Start at GT start for fair comparison
+        ronin_path_integrated[0] = gt_target_raw[0]
         dt = 1.0 / args.imu_sampling_rate
         for i in range(1, num_frames_inference):
             ronin_path_integrated[i, 0] = ronin_path_integrated[i-1, 0] + ronin_vel_pred_inference[i, 0] * dt
             ronin_path_integrated[i, 1] = ronin_path_integrated[i-1, 1] + ronin_vel_pred_inference[i, 1] * dt
         plt.plot(ronin_path_integrated[:, 0], ronin_path_integrated[:, 1], label='RoNIN Integrated Path', color='green', linestyle='-.', alpha=0.7)
-
 
         plt.xlabel('X (meters)')
         plt.ylabel('Y (meters)')
@@ -180,3 +160,6 @@ if __name__ == "__main__":
         plt.close()
 
     print("\n--- Evaluation Script Finished ---")
+
+
+
