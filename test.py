@@ -11,10 +11,6 @@ Epoch 4/5, Average Loss: 0.546123
 Epoch 5/5, Average Loss: 0.515123
 """
 
-git add -all
-git commit -m "adjusted model"
-gir push origin main
-
 # Parse the data
 epochs = []
 losses = []
